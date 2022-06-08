@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { AuthRoutes } from "../components/auth/routes";
 
+export const version = "/api/v1";
+
 export function registerRoutes(router: Router) {
-  const version = "/api/v1";
 
   const authRouter = new AuthRoutes().setup();
 

@@ -93,7 +93,7 @@
 - setup data layer using sequelize and dotenv
 - setup docker postgres
 
-  - [ ] start working on components
+  - [ ] start working on components and features
 
 
 
