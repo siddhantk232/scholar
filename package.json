@@ -1,0 +1,19 @@
+{
+  "name": "scholar",
+  "version": "1.0.0",
+  "description": "A role-based restAPI for School Management Software",
+  "main": "./dist/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siddhantk232/scholar.git"
+  },
+  "author": "siddhantk232",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siddhantk232/scholar/issues"
+  },
+  "homepage": "https://github.com/siddhantk232/scholar#readme"
+}
