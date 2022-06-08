@@ -1,11 +1,12 @@
 import express from "express";
+import { registerRoutes } from "./utils/registerRoutes";
 
 (function () {
   const app = express();
 
-  app.get("/", (_, res) => res.send("ping"));
-
   const server = app.listen(3000, () => console.log("listening"));
+
+  registerRoutes(app);
 
   process.once("SIGTERM", handleClose);
   process.once("SIGINT", handleClose);
@@ -14,5 +15,4 @@ import express from "express";
     console.log("closing");
     server.close();
   }
-})()
-
+})();

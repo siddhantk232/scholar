@@ -17,8 +17,9 @@
 - students can have many classes (n:m)
 - a class can have only one teacher (1:1) (a teacher can have multiple TAs but that's out of scope for now)
 - a student can have many scores but a score belongs to one student (1:n)
-- admin only manages (can't be in class, can't be a student, can only create and manage teachers/students/classes)
 - teachers should be able to add students to a class and create new classes but that's out of scope
+
+- admin only manages (can't be in class, can't be a student, can only create and manage teachers/students/classes)
 
 ## Features
 
@@ -87,12 +88,13 @@
 - [x] setup prettier
 
 - [x] setup express server
-- [ ] setup routes v1
-- setup sequelize and dotenv
+- [x] setup routes v1
+
+- setup data layer using sequelize and dotenv
+- setup docker postgres
 
   - [ ] start working on components
 
-- setup docker postgres
 
 
 
