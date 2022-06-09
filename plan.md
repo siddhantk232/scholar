@@ -90,7 +90,7 @@
 - [x] setup express server
 - [x] setup routes v1
 
-- setup data layer using sequelize and dotenv
+- setup data layer using prisma and dotenv
 - setup docker postgres
 
   - [ ] start working on components and features
