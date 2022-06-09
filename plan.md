@@ -18,6 +18,8 @@
 - a class can have only one teacher (1:1) (a teacher can have multiple TAs but that's out of scope for now)
 - a student can have many scores but a score belongs to one student (1:n)
 - teachers should be able to add students to a class and create new classes but that's out of scope
+- student can have many score, a score belongs to one user (1:n)
+- class can have many score, a score belongs to one class (1:n)
 
 - admin only manages (can't be in class, can't be a student, can only create and manage teachers/students/classes)
 
@@ -90,10 +92,11 @@
 - [x] setup express server
 - [x] setup routes v1
 
-- setup data layer using sequelize and dotenv
-- setup docker postgres
-
-  - [ ] start working on components and features
+- [x] setup data layer using prisma
+- [x] setup docker postgres
+- [x] database models
+- [ ] document README
+- [ ] start working on components and features
 
 
 
