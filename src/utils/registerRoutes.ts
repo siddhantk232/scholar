@@ -1,11 +1,11 @@
+import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import { AuthRoutes } from "../components/auth/routes";
 
 export const version = "/api/v1";
 
-export function registerRoutes(router: Router) {
-
-  const authRouter = new AuthRoutes().setup();
+export function registerRoutes(router: Router, queryClient: PrismaClient) {
+  const authRouter = new AuthRoutes({ db: queryClient }).setup();
 
   router.get(version, (_, res) => {
     res.json({
