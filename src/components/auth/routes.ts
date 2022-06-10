@@ -12,8 +12,14 @@ export class AuthRoutes {
   }
 
   setup(): Router {
-    this.router.post("/auth/signup", this.controller.signup);
-    this.router.post("/auth/login", this.controller.login);
+    this.router.post(
+      "/auth/signup",
+      this.controller.signup.bind(this.controller)
+    );
+    this.router.post(
+      "/auth/login",
+      this.controller.login.bind(this.controller)
+    );
 
     return this.router;
   }
