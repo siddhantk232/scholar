@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import { PrismaClient } from "@prisma/client";
 
 import { registerRoutes } from "./utils/registerRoutes";
 import { version } from "./utils/registerRoutes";
@@ -11,13 +12,16 @@ import { version } from "./utils/registerRoutes";
 
   app.use(morgan("tiny"));
 
-  registerRoutes(app);
+  const prisma = new PrismaClient();
+
+  registerRoutes(app, prisma);
 
   process.once("SIGTERM", handleClose);
   process.once("SIGINT", handleClose);
 
-  function handleClose() {
+  async function handleClose() {
     console.log("closing");
+    await prisma.$disconnect();
     server.close();
   }
 
