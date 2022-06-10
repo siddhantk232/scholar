@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 // This is not meant to be used in production! Why?
@@ -7,18 +8,10 @@ import jwt from "jsonwebtoken";
 // More information about jwt auth:
 //   - https://www.reddit.com/r/node/comments/kjx0dz/how_to_handle_auth_with_jwt_in_mern_stack_the/ggzff4r/?context=3
 //   - Use Auth0 in a headless server like Hasura for access control (https://hasura.io/docs/latest/graphql/core/guides/integrations/auth0-jwt)
-export function createToken({
-  name,
-  email,
-  kind,
-  id,
-}: {
-  email: string;
-  name: string;
-  kind: string;
-  id: number;
-}) {
-  return jwt.sign({ name, email, kind, id }, process.env.SECRET!, {
+export function createToken(
+  payload: Pick<Prisma.userGetPayload<true>, "id" | "name" | "kind" | "email">
+) {
+  return jwt.sign(payload, process.env.SECRET!, {
     expiresIn: "7d",
   });
 }
