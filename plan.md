@@ -95,7 +95,10 @@
 - [x] setup data layer using prisma
 - [x] setup docker postgres
 - [x] database models
-- [ ] document README
+- [x] document README
+
+- [ ] auth
+
 - [ ] start working on components and features
 
 
