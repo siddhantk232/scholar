@@ -18,9 +18,12 @@ export class TeacherController {
   async getTeachers(_: Request, res: Response) {
     const teachers = await this.db.user.findMany({
       where: { kind: Role.TEACHER },
+      select: { id: true, name: true, email: true, kind: true },
     });
 
-    res.status(StatusCodes.OK).json({ ok: true, teachers });
+    res
+      .status(StatusCodes.OK)
+      .json({ ok: true, teachers, message: "successfully fetched teachers" });
   }
 
   async getTeacher(req: Request, res: Response) {
@@ -34,9 +37,12 @@ export class TeacherController {
 
     const teacher = await this.db.user.findFirst({
       where: { id, kind: Role.TEACHER },
+      select: { id: true, name: true, email: true, kind: true },
     });
 
-    return res.status(StatusCodes.OK).json({ ok: true, teacher });
+    return res
+      .status(StatusCodes.OK)
+      .json({ ok: true, message: "successfully fetched teachers", teacher });
   }
 
   async deleteTeacher(req: Request, res: Response) {
@@ -52,7 +58,12 @@ export class TeacherController {
 
     return res
       .status(StatusCodes.OK)
-      .json({ ok: true, message: "Teacher deleted successfully", teacher });
+      .json({
+        ok: true,
+        message: "Teacher deleted successfully",
+        ...teacher,
+        hashed_password: "hidden",
+      });
   }
 
   async updateTeacher(req: Request, res: Response) {
@@ -76,7 +87,12 @@ export class TeacherController {
 
     return res
       .status(StatusCodes.OK)
-      .json({ ok: true, message: "Teacher updated successfully", teacher });
+      .json({
+        ok: true,
+        message: "Teacher updated successfully",
+        teacher,
+        hashed_password: "hidden",
+      });
   }
 
   private validate(

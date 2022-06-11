@@ -98,9 +98,10 @@
 - [x] document README
 
 - [x] auth
-- change auth so that only admin can create new users (TEACHERs/STUDENTs/ADMINs)
+- [x] change auth so that only admin can create new users (TEACHERs/STUDENTs/ADMINs)
 
-- [ ] start working on components and features
+- [x] start working on components and features
+- implement score
 
 
 

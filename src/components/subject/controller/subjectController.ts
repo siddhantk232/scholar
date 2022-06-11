@@ -27,7 +27,9 @@ export class SubjectController {
 
     const subject = await this.db.subject.findFirst({ where: { id } });
 
-    return res.status(StatusCodes.OK).json({ ok: true, subject });
+    return res
+      .status(StatusCodes.OK)
+      .json({ ok: true, subject, message: "successfully fetched subjects" });
   }
 
   async createSubject(req: Request, res: Response) {
@@ -41,7 +43,9 @@ export class SubjectController {
 
     const subject = await this.db.subject.create({ data });
 
-    return res.status(StatusCodes.CREATED).json({ ok: true, subject });
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ ok: true, subject, message: "successfully fetched subject" });
   }
 
   async deleteSubject(req: Request, res: Response) {

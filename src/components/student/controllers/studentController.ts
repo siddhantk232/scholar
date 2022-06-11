@@ -17,6 +17,7 @@ export class StudentController {
   async getStudents(_: Request, res: Response) {
     const students = await this.db.user.findMany({
       where: { kind: Role.STUDENT },
+      select: { id: true, name: true, email: true, kind: true },
     });
 
     res.status(StatusCodes.OK).json({ ok: true, students });
@@ -33,6 +34,7 @@ export class StudentController {
 
     const student = await this.db.user.findFirst({
       where: { id, kind: Role.STUDENT },
+      select: { id: true, name: true, email: true, kind: true },
     });
 
     return res.status(StatusCodes.OK).json({ ok: true, student });
@@ -47,11 +49,14 @@ export class StudentController {
         .json({ ok: false, message: "Invalid id" });
     }
 
-    const subject = await this.db.user.delete({ where: { id } });
+    const student = await this.db.user.delete({ where: { id } });
 
-    return res
-      .status(StatusCodes.OK)
-      .json({ ok: true, message: "Student deleted successfully", subject });
+    return res.status(StatusCodes.OK).json({
+      ok: true,
+      message: "Student deleted successfully",
+      ...student,
+      hashed_password: "hidden",
+    });
   }
 
   async updateStudent(req: Request, res: Response) {
@@ -75,7 +80,12 @@ export class StudentController {
 
     return res
       .status(StatusCodes.OK)
-      .json({ ok: true, message: "Student updated successfully", student });
+      .json({
+        ok: true,
+        message: "Student updated successfully",
+        ...student,
+        hashed_password: "hidden",
+      });
   }
 
   private validate(

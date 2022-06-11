@@ -53,6 +53,7 @@ export class AuthenticationController {
       ok: true,
       message: "User created successfully",
       user: {
+        id: user.id,
         name: user.name,
         email: user.email,
         kind: user.kind,
@@ -94,6 +95,7 @@ export class AuthenticationController {
         ok: true,
         message: "User authenticated successfully",
         user: {
+          id: user.id,
           name: user.name,
           email: user.email,
           kind: user.kind,
