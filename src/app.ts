@@ -14,7 +14,7 @@ import { version } from "./utils/registerRoutes";
   app.use(morgan("tiny"));
   app.use(express.json());
 
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({ log: ["info"] });
 
   registerRoutes(app, prisma);
 
