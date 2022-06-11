@@ -2,6 +2,10 @@
 
 A role-based restAPI for School Management Software.
 
+---
+
+A roughly structured plan and todo list is available [here](https://github.com/siddhantk232/scholar/blob/main/plan.md)
+
 ### Requirements
 
   - node v17.4.0
@@ -25,16 +29,18 @@ A role-based restAPI for School Management Software.
 
 #### Code
 
-Use below listed commands to setup and run the code.
+  - Use below listed commands to setup and run the code.
 
-  ```sh
-  git clone git@github.com:siddhantk232/scholar.git
-  cd scholar
-  npm i
-  npm run build
-  npx prisma migrate dev
-  npm start
-  ```
+    ```sh
+    git clone git@github.com:siddhantk232/scholar.git
+    cd scholar
+    npm i
+    npm run build
+    npx prisma migrate dev
+    npm start
+    ```
 
-More npm scripts are available for dev use (see [`package.json`](https://github.com/siddhantk232/scholar/blob/main/package.json))
+    More npm scripts are available for dev use (see [`package.json`](https://github.com/siddhantk232/scholar/blob/main/package.json))
+
+  - The documentation can be viewed at `http://localhost:3000/api/v1/doc` after you have run the development server.
 
