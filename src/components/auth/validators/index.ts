@@ -1,5 +1,5 @@
+import { Role } from "@prisma/client";
 import Joi from "joi";
-import { Role } from "../../shared/role";
 
 export interface User {
   id: number;
@@ -16,7 +16,7 @@ const commonValidator = {
 
 export const signupValidator = Joi.object<User>({
   name: Joi.string().min(1).required(),
-  kind: Joi.string().valid(Role.Teacher, Role.Student).required(),
+  kind: Joi.string().valid(Role.ADMIN, Role.STUDENT, Role.TEACHER).required(),
   ...commonValidator,
 });
 
