@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { requireAdminAuth } from "../shared/middlewares/requireAdminAuth";
+import { requireTeacherAuth } from "../shared/middlewares/requireTeacherAuth";
 import { StudentController } from "../student/controllers/studentController";
 import { SubjectController } from "../subject/controller/subjectController";
 import { TeacherController } from "../teacher/controllers/teacherController";
@@ -21,77 +23,89 @@ export class AdminRoutes {
   }
 
   setup(): Router {
-    this.router.get(
-      "/subject",
+    (this.router.get as any)(
+      "/admin/subject",
+      requireTeacherAuth,
       this.subjectController.getSubjects.bind(this.subjectController)
     );
-    this.router.get(
-      "/subject/:id",
-      this.subjectController.getSubjects.bind(this.subjectController)
+    (this.router.get as any)(
+      "/admin/subject/:id",
+      requireTeacherAuth,
+      this.subjectController.getSubject.bind(this.subjectController)
     );
-    this.router.post(
-      "/subject",
+    (this.router.post as any)(
+      "/admin/subject",
+      requireAdminAuth,
       this.subjectController.createSubject.bind(this.subjectController)
     );
-    this.router.delete(
-      "/subject/:id",
+    (this.router.delete as any)(
+      "/admin/subject/:id",
+      requireAdminAuth,
       this.subjectController.deleteSubject.bind(this.subjectController)
     );
-    this.router.put(
-      "/subject/:id",
+    (this.router.put as any)(
+      "/admin/subject/:id",
+      requireAdminAuth,
       this.subjectController.updateSubject.bind(this.subjectController)
     );
 
-    this.router.get(
+    (this.router.get as any)(
       "/admin/teacher",
+      requireAdminAuth,
       this.teacherController.getTeachers.bind(this.teacherController)
     );
-    this.router.get(
+    (this.router.get as any)(
       "/admin/teacher/:id",
+      requireAdminAuth,
       this.teacherController.getTeacher.bind(this.teacherController)
     );
-    this.router.post(
+    (this.router.post as any)(
       "/admin/teacher",
+      requireAdminAuth,
       this.teacherController.createTeacher.bind(this.teacherController)
     );
-    this.router.delete(
+    (this.router.delete as any)(
       "/admin/teacher/:id",
+      requireAdminAuth,
       this.teacherController.deleteTeacher.bind(this.teacherController)
     );
-    this.router.put(
+    (this.router.put as any)(
       "/admin/teacher/:id",
+      requireAdminAuth,
       this.teacherController.updateTeacher.bind(this.teacherController)
     );
 
-    this.router.post(
+    (this.router.post as any)(
       "/admin/teacher/:teacherId/subject/:subjectId",
-      this.adminController.mapTeacherToClass.bind(this.adminController)
+      requireAdminAuth,
+      this.adminController.mapTeacherToSubject.bind(this.adminController)
     );
 
-    this.router.get(
+    (this.router.get as any)(
       "/admin/student",
+      requireTeacherAuth,
       this.studentController.getStudents.bind(this.studentController)
     );
-    this.router.get(
+    (this.router.get as any)(
       "/admin/student/:id",
+      requireTeacherAuth,
       this.studentController.getStudent.bind(this.studentController)
     );
-    this.router.post(
-      "/admin/student",
-      this.studentController.createStudent.bind(this.studentController)
-    );
-    this.router.delete(
+    (this.router.delete as any)(
       "/admin/student/:id",
+      requireAdminAuth,
       this.studentController.deleteStudent.bind(this.studentController)
     );
-    this.router.put(
+    (this.router.put as any)(
       "/admin/student/:id",
+      requireAdminAuth,
       this.studentController.updateStudent.bind(this.studentController)
     );
 
-    this.router.post(
+    (this.router.post as any)(
       "/admin/student/:studentId/subject/:subjectId",
-      this.adminController.mapStudentToClass.bind(this.adminController)
+      requireAdminAuth,
+      this.adminController.mapStudentToSubject.bind(this.adminController)
     );
 
     return this.router;

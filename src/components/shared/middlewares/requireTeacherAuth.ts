@@ -1,10 +1,9 @@
 import { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { user } from "@prisma/client";
+import { Role, user } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 import { AuthenticatedRequest } from "../types/auth";
-import { Role } from "../role";
 
 export function requireTeacherAuth(
   req: AuthenticatedRequest,
@@ -18,9 +17,12 @@ export function requireTeacherAuth(
       throw new Error("Unauthorized");
     } else {
       const user = jwt.verify(token, process.env.SECRET!) as user;
-      if (user.kind !== Role.Teacher) {
+
+      // ADMIN can also do any action doable by the TEACHER
+      if (![Role.ADMIN, Role.TEACHER].includes(user.kind as any)) {
         throw new Error("This action requires the user to be an Admin");
       }
+
       req.user = user;
     }
     return next();
