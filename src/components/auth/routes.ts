@@ -16,6 +16,7 @@ export class AuthRoutes {
       "/auth/signup",
       this.controller.signup.bind(this.controller)
     );
+
     this.router.post(
       "/auth/login",
       this.controller.login.bind(this.controller)
