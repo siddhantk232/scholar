@@ -59,8 +59,8 @@
 
 ## Routes
 
--   POST     /auth/login
--   POST     /auth/signup
+-   [x] POST     /auth/login
+-   [x] POST     /auth/signup
 
 -   POST     /admin/teacher
 -   GET      /admin/teacher
@@ -97,7 +97,9 @@
 - [x] database models
 - [x] document README
 
-- [ ] auth
+- [x] auth
+- change auth so that only admin can create new users (TEACHERs/STUDENTs/ADMINs)
+
 
 - [ ] start working on components and features
 

@@ -41,7 +41,12 @@ export class AuthenticationController {
     validatedUser.password = await bcrypt.hash(validatedUser.password, 10);
 
     const user = await this.db.user.create({
-      data: { ...validatedUser, hashed_password: validatedUser.password },
+      data: {
+        name: validatedUser.name,
+        email: validatedUser.email,
+        kind: validatedUser.kind,
+        hashed_password: validatedUser.password,
+      },
     });
 
     return res.status(StatusCodes.CREATED).json({

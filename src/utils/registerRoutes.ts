@@ -4,11 +4,13 @@ import swaggerUi from "swagger-ui-express";
 
 import swaggerDocument from "../../doc/openapi.json";
 import { AuthRoutes } from "../components/auth/routes";
+import { AdminRoutes } from "../components/admin/routes";
 
 export const version = "/api/v1";
 
 export function registerRoutes(router: Router, queryClient: PrismaClient) {
   const authRouter = new AuthRoutes({ db: queryClient }).setup();
+  const adminRouter = new AdminRoutes({ db: queryClient }).setup();
 
   router.use(`${version}/doc`, swaggerUi.serve);
   router.get(`${version}/doc`, swaggerUi.setup(swaggerDocument));
@@ -21,4 +23,5 @@ export function registerRoutes(router: Router, queryClient: PrismaClient) {
   });
 
   router.use(version, authRouter);
+  router.use(version, adminRouter);
 }
