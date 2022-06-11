@@ -78,7 +78,7 @@ export class AdminRoutes {
     (this.router.post as any)(
       "/admin/teacher/:teacherId/subject/:subjectId",
       requireAdminAuth,
-      this.adminController.mapTeacherToClass.bind(this.adminController)
+      this.adminController.mapTeacherToSubject.bind(this.adminController)
     );
 
     (this.router.get as any)(
@@ -105,7 +105,7 @@ export class AdminRoutes {
     (this.router.post as any)(
       "/admin/student/:studentId/subject/:subjectId",
       requireAdminAuth,
-      this.adminController.mapStudentToClass.bind(this.adminController)
+      this.adminController.mapStudentToSubject.bind(this.adminController)
     );
 
     return this.router;

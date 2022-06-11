@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
@@ -15,8 +15,11 @@ export class StudentController {
   }
 
   async getStudents(_: Request, res: Response) {
-    const subjects = await this.db.user.findMany();
-    res.status(StatusCodes.OK).json({ ok: true, subjects });
+    const students = await this.db.user.findMany({
+      where: { kind: Role.STUDENT },
+    });
+
+    res.status(StatusCodes.OK).json({ ok: true, students });
   }
 
   async getStudent(req: Request, res: Response) {
@@ -28,7 +31,9 @@ export class StudentController {
         .json({ ok: false, message: "Invalid id" });
     }
 
-    const student = await this.db.user.findFirst({ where: { id } });
+    const student = await this.db.user.findFirst({
+      where: { id, kind: Role.STUDENT },
+    });
 
     return res.status(StatusCodes.OK).json({ ok: true, student });
   }
