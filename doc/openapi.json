@@ -1,0 +1,177 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Scholar",
+    "description": "A role-based restAPI for School Management Software.",
+    "contact": {
+      "name": "siddhantk232",
+      "url": "https://github.com/siddhantk232",
+      "email": "siddhantk232@gmail.com"
+    },
+    "license": {
+      "name": "ISC",
+      "url": "https://opensource.org/licenses/ISC"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "localhost:{port}/api/{version}",
+      "description": "development server",
+      "variables": {
+        "port": {
+          "default": "3000"
+        },
+        "version": {
+          "default": "v1"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "description": "Register a new user. A user can be a Teacher, a Student or, an Admin. Only Teachers and Students can be created through this resource",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfull user registration response"
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Authenticate a registered user in exchange of an access token.",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully authenticated the user"
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GeneralError": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterUser": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "TEACHER",
+              "STUDENT"
+            ]
+          }
+        },
+        "description": "user to add to the system"
+      },
+      "LoginUser": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "description": "registered user"
+      },
+      "AuthUserResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/AuthUserResponse_user"
+          }
+        }
+      },
+      "AuthUserResponse_user": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "TEACHER",
+              "STUDENT"
+            ]
+          }
+        },
+        "example": null
+      }
+    }
+  }
+}
+

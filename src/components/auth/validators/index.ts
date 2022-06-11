@@ -21,7 +21,7 @@ const commonValidator = {
 
 export const signupValidator = Joi.object<User>({
   name: Joi.string().min(1).required(),
-  kind: Joi.string().valid(Role.Admin, Role.Teacher, Role.Student).required(),
+  kind: Joi.string().valid(Role.Teacher, Role.Student).required(),
   ...commonValidator,
 });
 
