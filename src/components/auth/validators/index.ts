@@ -1,10 +1,5 @@
 import Joi from "joi";
-
-export enum Role {
-  Student = "STUDENT",
-  Teacher = "TEACHER",
-  Admin = "ADMIN",
-}
+import { Role } from "../../shared/role";
 
 export interface User {
   id: number;
