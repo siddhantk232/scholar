@@ -11,7 +11,7 @@ import jwt from "jsonwebtoken";
 export function createToken(
   payload: Pick<Prisma.userGetPayload<true>, "id" | "name" | "kind" | "email">
 ) {
-  return jwt.sign(payload, process.env.SECRET!, {
+  return jwt.sign({ ...payload, hashed_password: "hidden" }, process.env.SECRET!, {
     expiresIn: "7d",
   });
 }
