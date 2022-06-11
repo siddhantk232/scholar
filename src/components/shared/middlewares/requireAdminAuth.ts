@@ -1,10 +1,9 @@
 import { NextFunction, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { user } from "@prisma/client";
+import { user, Role } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 import { AuthenticatedRequest } from "../types/auth";
-import { Role } from "../role";
 
 export const requireAdminAuth = (
   req: AuthenticatedRequest,
@@ -18,7 +17,7 @@ export const requireAdminAuth = (
       throw new Error("Unauthorized");
     } else {
       const user = jwt.verify(token, process.env.SECRET!) as user;
-      if (user.kind !== Role.Admin) {
+      if (user.kind !== Role.ADMIN) {
         throw new Error("This action requires the user to be an Admin");
       }
       req.user = user;

@@ -59,11 +59,6 @@ export class AdminRoutes {
       requireAdminAuth,
       this.teacherController.getTeacher.bind(this.teacherController)
     );
-    (this.router.post as any)(
-      "/admin/teacher",
-      requireAdminAuth,
-      this.teacherController.createTeacher.bind(this.teacherController)
-    );
     (this.router.delete as any)(
       "/admin/teacher/:id",
       requireAdminAuth,
