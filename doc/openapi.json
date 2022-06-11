@@ -31,6 +31,9 @@
   "paths": {
     "/auth/signup": {
       "post": {
+        "tags": [
+          "auth"
+        ],
         "description": "Register a new user. A user can be a Teacher, a Student or, an Admin. Only Teachers and Students can be created through this resource",
         "requestBody": {
           "description": "",
@@ -44,7 +47,64 @@
         },
         "responses": {
           "201": {
-            "description": "Successfull user registration response"
+            "description": "Successfull user registration response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "description": "Authenticate a registered user in exchange of an access token.",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully authenticated the user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthUserResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid request body",
@@ -59,22 +119,53 @@
         }
       }
     },
-    "/auth/login": {
-      "post": {
-        "description": "Authenticate a registered user in exchange of an access token.",
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginUser"
+    "/admin/subject": {
+      "get": {
+        "tags": [
+          "admin",
+          "subject"
+        ],
+        "description": "get all subjects",
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
               }
             }
           }
         },
+        "security": [
+          {
+            "teacherAuth": []
+          }
+        ]
+      },
+      "post": {
+        "description": "get a subject by its id",
         "responses": {
-          "201": {
-            "description": "Successfully authenticated the user"
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectResponse"
+                }
+              }
+            }
           },
           "400": {
             "description": "Invalid request body",
@@ -85,13 +176,786 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
           }
-        }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/subject/{id}": {
+      "get": {
+        "tags": [
+          "admin",
+          "subject"
+        ],
+        "description": "get a subject by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "subject id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "teacherAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "admin",
+          "subject"
+        ],
+        "description": "update a subject by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "subject id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "admin",
+          "subject"
+        ],
+        "description": "delete a subject by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "subject id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubjectResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/teacher": {
+      "get": {
+        "tags": [
+          "admin",
+          "teacher"
+        ],
+        "description": "get all teachers",
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeachersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/teacher/{id}": {
+      "get": {
+        "tags": [
+          "admin",
+          "teacher"
+        ],
+        "description": "get a teacher by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "teacher id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "admin",
+          "teacher"
+        ],
+        "description": "update a teacher by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "teacher id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "admin",
+          "teacher"
+        ],
+        "description": "delete a teacher by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "teacher id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/teacher/{teacherId}/subject/{subjectId}": {
+      "post": {
+        "tags": [
+          "admin",
+          "teacher"
+        ],
+        "description": "map a teacher to a subject",
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "path",
+            "description": "The id of the teacher who you want to map to this subject.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "subjectId",
+            "in": "path",
+            "description": "subject id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappedUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/student": {
+      "get": {
+        "tags": [
+          "admin",
+          "student"
+        ],
+        "description": "get all students",
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "teacherAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/student/{id}": {
+      "get": {
+        "tags": [
+          "admin",
+          "student"
+        ],
+        "description": "get a student by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "student id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "teacherAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "admin",
+          "student"
+        ],
+        "description": "update a student by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "student id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "admin",
+          "student"
+        ],
+        "description": "delete a student by its id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "student id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "appplication/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body or id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/student/{studentId}/subject/{subjectId}": {
+      "post": {
+        "tags": [
+          "admin",
+          "student"
+        ],
+        "description": "map a student to a subject",
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "description": "The id of the student who you want to map to this subject.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "subjectId",
+            "in": "path",
+            "description": "subject id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappedUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid ids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access to resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "adminAuth": []
+          }
+        ]
       }
     }
   },
   "components": {
     "schemas": {
+      "MappedUserResponse": {
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/SubjectMapping"
+          }
+        }
+      },
+      "SubjectMapping": {
+        "properties": {
+          "userId": {
+            "type": "integer"
+          },
+          "subjectId": {
+            "type": "integer"
+          },
+          "assignedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "GeneralError": {
         "type": "object",
         "properties": {
@@ -137,23 +1001,12 @@
         },
         "description": "registered user"
       },
-      "AuthUserResponse": {
+      "User": {
         "type": "object",
         "properties": {
-          "ok": {
-            "type": "boolean"
+          "id": {
+            "type": "integer"
           },
-          "message": {
-            "type": "string"
-          },
-          "user": {
-            "$ref": "#/components/schemas/AuthUserResponse_user"
-          }
-        }
-      },
-      "AuthUserResponse_user": {
-        "type": "object",
-        "properties": {
           "name": {
             "type": "string"
           },
@@ -168,10 +1021,154 @@
               "STUDENT"
             ]
           }
-        },
-        "example": null
+        }
+      },
+      "AuthUserResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "TeacherResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "TeachersResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "teachers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "StudentResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "student": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "StudentsResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "students": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "SubjectResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "subject": {
+            "$ref": "#/components/schemas/Subject"
+          }
+        }
+      },
+      "SubjectsResponse": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Subject"
+            }
+          }
+        }
+      },
+      "Subject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "teacherId": {
+            "type": "integer"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "adminAuth": {
+        "type": "http",
+        "description": "Auth for admins",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "teacherAuth": {
+        "type": "http",
+        "description": "Auth for teachers. Admins will be able to access resource protected with this auth.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
 }
-
