@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { requireAdminAuth } from "../shared/middlewares/requireAdminAuth";
 import { AuthenticationController } from "./controllers/authenticationController";
 
 export class AuthRoutes {
@@ -12,8 +13,9 @@ export class AuthRoutes {
   }
 
   setup(): Router {
-    this.router.post(
+    (this.router.post as any)(
       "/auth/signup",
+      requireAdminAuth,
       this.controller.signup.bind(this.controller)
     );
 
